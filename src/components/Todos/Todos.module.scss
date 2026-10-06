@@ -1,0 +1,17 @@
+@use "../../scss/mixins/mixins" as *;
+
+.todos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.todo {
+ display: flex;
+  align-items: center; 
+  gap: 0.5rem;
+}

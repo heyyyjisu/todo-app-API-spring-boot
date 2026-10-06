@@ -1,0 +1,21 @@
+@use "../../scss/mixins/mixins" as *;
+
+.todoForm {
+  display: flex;
+  gap: 24px;
+  margin: 2rem 6rem 2rem 6rem;
+}
+
+.addNewTodo {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.todoInput {
+  flex: 1;
+}
+
+.todoSelect {
+  width: 150px;
+}

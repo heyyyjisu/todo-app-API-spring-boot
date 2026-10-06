@@ -1,0 +1,19 @@
+@use "../../scss/mixins/mixins" as *;
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 1rem;
+}
+
+.myCategories {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+
+

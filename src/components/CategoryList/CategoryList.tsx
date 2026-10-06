@@ -1,44 +1,59 @@
-import React, { useState } from 'react'
-import Button from '../Button/Button'
+import styles from "./CategoryList.module.scss";
+import type { Dispatch, SetStateAction } from "react";
+import type { CategoryType } from "../../types/category";
+import type { TodoType } from "../../types/todo";
+import CategoryCard from "../CategoryCard/CategoryCard";
 
-export default function CategoryList() {
+interface CategoryListProps {
+  categories: CategoryType[];
+  todos: TodoType[];
+  onDeleteTodo: (id: number) => void;
+  isEditing: boolean;
+  editingCategoryId: number | null;
+  newCategoryName: string;
+  setNewCategoryName: Dispatch<SetStateAction<string>>;
+  onDeleteCategory: (id: number) => void;
+  onEditClick: (id: number, oldName: string) => void;
+  onClickOkay: (id: number, newName: string) => void;
+  onClickCancel: () => void;
+}
 
-  const [value, setValue] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  }
-
-  const handleClick = async () => {
-    try {
-      const res = await fetch('http://localhost:8080/categories', {
-        method: "POST",
-        headers: {
-          "Content-Type": 'application/json',
-        },
-        body: JSON.stringify({
-          name: value,
-        }),
-      });
-      if (!res.ok) {
-        throw new Error (`HTTP error! Status: ${res.status}`)
-      }
-      const data = await res.json();
-      console.log(data);
-      setValue("");
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      } else {
-        console.error(err);
-      }
-    }
-  }
-
+export default function CategoryList(
+  {
+    categories,
+    todos,
+    isEditing,
+    editingCategoryId,
+    newCategoryName,
+    setNewCategoryName,
+    onDeleteCategory,
+    onEditClick,
+    onClickOkay,
+    onClickCancel,
+    onDeleteTodo,
+  }: CategoryListProps
+) {
   return (
-    <div>
-      <input type="text" placeholder='type here...' value={value} onChange={handleChange}  />
-      <Button onClick={handleClick}>Submit</Button>
+    <div className={styles.categoryList}>
+      <ul className={styles.myCategories}>
+        {categories.map((c) => (
+          <CategoryCard
+            key={c.id}
+            categories={categories}
+            category={c}
+            todos={todos}
+            isEditing={isEditing}
+            editingCategoryId={editingCategoryId}
+            newCategoryName={newCategoryName}
+            setNewCategoryName={setNewCategoryName}
+            onDeleteCategory={onDeleteCategory}
+            onEditClick={onEditClick}
+            onClickOkay={onClickOkay}
+            onClickCancel={onClickCancel}
+            onDeleteTodo={onDeleteTodo}
+          />
+        ))}
+      </ul>
     </div>
-  )
+  );
 }

@@ -1,0 +1,52 @@
+@use "../../scss/mixins/mixins" as *;
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 1rem;
+  max-width: 150px;
+}
+
+.categoryTag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.categoryName {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+
+  width: 100px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+
+  background-color: transparent;
+  background-image:
+    linear-gradient(to bottom right, transparent 50%, #9f0eff2e 50% 100%),
+    linear-gradient(to right, #9f0eff2e, #9f0eff2e),
+    linear-gradient(to top left, transparent 50%, #9f0eff2e 50%);
+  background-size:
+    0.25em 1em,
+    calc(100% - 0.25em * 2 + 1px) 1em,
+    0.25em 1em;
+  background-position:
+    left center,
+    center,
+    right center;
+  background-repeat: no-repeat;
+}
+
+.todoList {
+  display: flex;
+}
+
+.tagBtns {
+  display: flex;
+}

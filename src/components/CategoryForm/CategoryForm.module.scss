@@ -1,0 +1,17 @@
+@use "../../scss/mixins/mixins" as *;
+
+.categoryForm {
+  display: flex;
+  gap: 24px;
+  margin: 2rem 6rem 2rem 6rem;
+}
+
+.addNewCategory {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.categoryInput {
+  flex: 1;
+}

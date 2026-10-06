@@ -1,0 +1,106 @@
+@use "./scss/variables/variables" as *;
+@import url("https://googleapis.com");
+
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font: $font-primary;
+  font-weight: 400;
+  height: 100vh;
+  width: 100vw;
+}
+
+input {
+  padding: 0.875rem;
+  font-size: 1rem;
+  border: 1.5px solid #000;
+  border-radius: 0.5rem;
+  box-shadow: 2.5px 3px 0 #000;
+  outline: none;
+  transition: ease 0.25s;
+}
+
+input:focus {
+  box-shadow: 5.5px 7px 0 black;
+}
+
+select {
+  /* arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 10px 35px 10px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
+
+  padding: 0.875rem;
+  font-size: 1rem;
+  border: 1.5px solid #000;
+  border-radius: 0.5rem;
+  box-shadow: 2.5px 3px 0 #000;
+  outline: none;
+  transition: ease 0.25s;
+}
+
+select:focus {
+  box-shadow: 5.5px 7px 0 black;
+}
+
+header {
+  width: 100px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+    font-weight: 700;
+
+  background-color: transparent;
+	background-image:
+		linear-gradient(
+			to bottom right,
+			transparent 50%,
+			#ffe279 50% 100%
+		),
+		linear-gradient(
+			to right,
+			#ffe279,
+			#ffe279
+		),
+		linear-gradient(
+			to top left,
+			transparent 50%,
+			#ffe279 50%
+		)
+	;
+  background-size:
+		0.25em 1em,
+		calc(100% - 0.25em * 2 + 1px) 1em,
+		0.25em 1em
+	;
+	background-position:
+		left center,
+		center,
+		right center
+	;
+	background-repeat: no-repeat;
+}
