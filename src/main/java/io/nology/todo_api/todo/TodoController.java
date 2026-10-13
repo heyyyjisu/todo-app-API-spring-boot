@@ -1,10 +1,12 @@
 package io.nology.todo_api.todo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.nology.todo_api.todo.dtos.CreateTodoRequest;
@@ -41,17 +43,29 @@ public class TodoController {
       return new ResponseEntity<TodoResponse>(TodoResponse.of(createdTodo), HttpStatus.CREATED);
   }
 
+  @PostMapping("/{id}/restore")
+  public ResponseEntity<TodoResponse> restoreById(@PathVariable Long id) {
+    Optional<Todo> result = this.service.restoreById(id);
+    if(result.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(TodoResponse.of(result.get()));
+  }
+
   @GetMapping()
-  public ResponseEntity<List<TodoResponse>> getAllTodos() {
-    List<Todo> allTodos = this.service.findAll();
+  public ResponseEntity<List<TodoResponse>> getAllTodos( @RequestParam(defaultValue = "false") boolean archived) {
+    List<Todo> allTodos = this.service.findAll(archived);
       return ResponseEntity.ok(TodoResponse.of(allTodos));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<TodoResponse> getById(@PathVariable Long id) {
-    Todo result = this.service
-            .findById(id).orElseThrow(()-> new RuntimeException("Not found"));
-    return ResponseEntity.ok(TodoResponse.of(result));
+    Optional<Todo> result = this.service
+            .findById(id);
+            if(result.isEmpty()) {
+              return ResponseEntity.notFound().build();
+            }
+    return ResponseEntity.ok(TodoResponse.of(result.get()));
   }
 
   @DeleteMapping("/{id}") 
@@ -65,8 +79,11 @@ public class TodoController {
 
   @PatchMapping("/{id}")
   public ResponseEntity<TodoResponse> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoRequest data) {
-    Todo result = this.service.updateById(id, data).orElseThrow(() -> new RuntimeException("could not find todo with id " + id));
-    return ResponseEntity.ok(TodoResponse.of(result));
+    Optional<Todo> result = this.service.updateById(id, data);
+    if (result.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(TodoResponse.of(result.get()));
   }
 
 }

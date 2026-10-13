@@ -14,11 +14,11 @@ import io.nology.todo_api.todo.entities.Todo;
 @Service
 public class TodoService {
 
-  private final TodoRepository repo;
+  private final TodoRepository todoRepo;
   private final CategoryRepository categoryRepo;
 
-  public TodoService(TodoRepository repo, CategoryRepository categoryRepo) {
-    this.repo = repo;
+  public TodoService(TodoRepository todoRepo, CategoryRepository categoryRepo) {
+    this.todoRepo = todoRepo;
     this.categoryRepo = categoryRepo;
   }
 
@@ -30,24 +30,31 @@ public class TodoService {
     createdTodo.setTitle(request.getTitle().trim());
     createdTodo.setCategory(category);
 
-    this.repo.save(createdTodo);
+    this.todoRepo.save(createdTodo);
     return createdTodo;
   }
-
-  public List<Todo> findAll() {
-    return this.repo.findAll();
+ 
+  public List<Todo> findAll(boolean archived) {
+    if(archived) {
+      return this.todoRepo.findByArchivedTrue();
+    }
+    return this.todoRepo.findByArchivedFalse();
   }
 
   public Optional<Todo> findById(Long id) {
-    return this.repo.findById(id);
+    Optional<Todo> result = this.todoRepo.findById(id).filter(todo -> !todo.isArchived());
+    return result;
   }
+  
 
   public boolean deleteById(Long id) {
     Optional<Todo> result = this.findById(id);
     if(result.isEmpty()) {
       return false;
     }
-    this.repo.delete(result.get());
+    Todo foundTodo = result.get();
+    foundTodo.setArchived(true);
+    this.todoRepo.save(foundTodo);
     return true;
   }
 
@@ -67,8 +74,19 @@ public class TodoService {
       foundTodo.setCategory(category);
     }
     
-    this.repo.saveAndFlush(foundTodo);
+    this.todoRepo.saveAndFlush(foundTodo);
     return Optional.of(foundTodo);
   }
 
+  
+  public Optional<Todo> restoreById(Long id) {
+    Optional<Todo> result = this.todoRepo.findById(id);
+    if(result.isEmpty()) {
+      return result;
+    }
+    Todo foundTodo = result.get();
+    foundTodo.setArchived(false);
+    this.todoRepo.save(foundTodo);
+    return result;
+  }
 }
